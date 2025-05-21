@@ -78,20 +78,150 @@ namespace Tag.Block
             // The 'hit' variable is a member of the class and is updated in ItemDrag before MoveItemOnBoard is called.
             Vector3 desired = hit.point + pickOffset;
 
-            // We might still want to check if the position has changed significantly to avoid excessive updates,
-            // but for now, let's directly update.
-            // if ((desired - lastDragPosition).sqrMagnitude < 0.001f)
-            // return;
+            // --- Boundary Checks ---
+            Board board = LevelManager.Instance.CurrentLevel.Board;
+            float boardTransX = board.transform.position.x;
+            float boardTransZ = board.transform.position.z;
 
-            lastDragPosition = desired;
-            pickItem.OnItemDrag(desired); // Pass the calculated world position
-            // pickItem.SetLastValidPosition(desired); // This might need to be re-evaluated for "put" logic. For now, let drag be free.
-            isMoved = true;
-            // itemPos = nearestCell.transform.position; // Not snapping to cells, so itemPos might need a different meaning or be removed if only for snapping.
-                                                       // For now, let's keep it, but its value is not directly from a cell.
-            itemPos = desired; // Update itemPos to the current dragged position.
-            // HighlightPossibleMoves(); // Highlighting might still be useful for the eventual drop location, but not for free drag.
-                                     // We can disable this during drag if it's confusing.
+            // Board boundaries: world coordinates of the centers of the outermost cells
+            float boardEdgeMinX = boardTransX - (board.Columns - 1) / 2f * board.CellSpacing;
+            float boardEdgeMaxX = boardTransX + (board.Columns - 1) / 2f * board.CellSpacing;
+            float boardEdgeMinZ = boardTransZ - (board.Rows - 1) / 2f * board.CellSpacing;
+            float boardEdgeMaxZ = boardTransZ + (board.Rows - 1) / 2f * board.CellSpacing;
+            
+            // Calculate item extents (min/max world coordinates of its constituent cell centers) at the 'desired' item position
+            float itemCellCentersMinX = float.MaxValue;
+            float itemCellCentersMaxX = float.MinValue;
+            float itemCellCentersMinZ = float.MaxValue;
+            float itemCellCentersMaxZ = float.MinValue;
+
+            if (pickItem.ShapePositions.Count == 0) // Handle items with no shape positions (e.g. 1x1 item at origin)
+            {
+                 // For a 1x1 item, its "shape" is effectively at its origin.
+                itemCellCentersMinX = desired.x;
+                itemCellCentersMaxX = desired.x;
+                itemCellCentersMinZ = desired.z;
+                itemCellCentersMaxZ = desired.z;
+            }
+            else
+            {
+                foreach (var shapePos in pickItem.ShapePositions) // shapePos is local offset from item origin
+                {
+                    // World position of the center of this constituent cell of the item
+                    Vector3 worldPosOfShapeCellCenter = desired + new Vector3(shapePos.x * pickItem.Spacing, 0, shapePos.z * pickItem.Spacing);
+                    
+                    itemCellCentersMinX = Mathf.Min(itemCellCentersMinX, worldPosOfShapeCellCenter.x);
+                    itemCellCentersMaxX = Mathf.Max(itemCellCentersMaxX, worldPosOfShapeCellCenter.x);
+                    itemCellCentersMinZ = Mathf.Min(itemCellCentersMinZ, worldPosOfShapeCellCenter.z);
+                    itemCellCentersMaxZ = Mathf.Max(itemCellCentersMaxZ, worldPosOfShapeCellCenter.z);
+                }
+            }
+
+            // Constrain the desired position based on cell centers
+            float shiftX = 0f;
+            float shiftZ = 0f;
+
+            if (itemCellCentersMinX < boardEdgeMinX)
+            {
+                shiftX = boardEdgeMinX - itemCellCentersMinX;
+            }
+            else if (itemCellCentersMaxX > boardEdgeMaxX)
+            {
+                shiftX = boardEdgeMaxX - itemCellCentersMaxX;
+            }
+
+            if (itemCellCentersMinZ < boardEdgeMinZ)
+            {
+                shiftZ = boardEdgeMinZ - itemCellCentersMinZ;
+            }
+            else if (itemCellCentersMaxZ > boardEdgeMaxZ)
+            {
+                shiftZ = boardEdgeMaxZ - itemCellCentersMaxZ;
+            }
+
+            desired.x += shiftX;
+            desired.z += shiftZ;
+            // Note: Assuming the duplicated line "desired.x += shiftX; desired.z += shiftZ;" was an error in my previous diffs
+            // and is NOT present in the actual file based on consistent tool failures to find it.
+            // If it IS present, this diff will fail, and I'll need to re-add its removal.
+            // For now, proceeding as if it's not there.
+            // --- End Boundary Checks ---
+
+            // --- Collision Detection & Conditional Movement ---
+            bool canMoveToDesiredPosition = true;
+            List<BaseCell> cellsItemWouldOccupy = new List<BaseCell>();
+
+            // 1. Determine Target Cells
+            if (pickItem.ShapePositions.Count == 0) // Handle 1x1 item (item's origin is its center)
+            {
+                BaseCell cell = board.GetCellAtWorldPos(desired); // 'desired' is item's origin
+                // If the single cell for a 1x1 item is null (e.g. outside grid after boundary constraint - shouldn't happen often)
+                if (cell == null) {
+                    canMoveToDesiredPosition = false;
+                } else {
+                    cellsItemWouldOccupy.Add(cell);
+                }
+            }
+            else
+            {
+                foreach (var shapePos in pickItem.ShapePositions) // shapePos is local offset from item's origin
+                {
+                    Vector3 worldPosOfShapePart = desired + new Vector3(shapePos.x * pickItem.Spacing, 0, shapePos.z * pickItem.Spacing);
+                    BaseCell cell = board.GetCellAtWorldPos(worldPosOfShapePart);
+                    if (cell == null) // If any part of the item maps to a null cell (e.g. outside grid)
+                    {
+                        canMoveToDesiredPosition = false;
+                        break; 
+                    }
+                    cellsItemWouldOccupy.Add(cell);
+                }
+            }
+
+            // 2. Check for Overlaps (only if all parts mapped to actual cells)
+            if (canMoveToDesiredPosition) 
+            {
+                foreach (BaseCell targetCell in cellsItemWouldOccupy)
+                {
+                    // targetCell should not be null here due to checks above, but defensive check doesn't hurt.
+                    if (targetCell == null) { // Should have been caught already
+                        canMoveToDesiredPosition = false;
+                        break;
+                    }
+                    if (targetCell.IsBlock) // Check if the cell itself is a blocker
+                    {
+                        canMoveToDesiredPosition = false;
+                        break;
+                    }
+                    if (targetCell.Item != null && targetCell.Item != pickItem) // Cell is occupied by another item
+                    {
+                        canMoveToDesiredPosition = false;
+                        break;
+                    }
+                }
+            }
+            // --- End Collision Detection ---
+
+            // 3. Update Item Position Conditionally
+            if (canMoveToDesiredPosition)
+            {
+                // Only call OnItemDrag and update lastDragPosition if the item has actually moved to a new position.
+                if ((desired - pickItem.transform.position).sqrMagnitude > 0.0001f) 
+                {
+                    pickItem.OnItemDrag(desired);
+                    lastDragPosition = desired; // This is the last position item was successfully dragged to.
+                    isMoved = true;             // Signifies that a move occurred in this frame.
+                }
+                itemPos = desired; // itemPos reflects the current valid position (or where it's trying to be if no significant movement).
+            }
+            else
+            {
+                // Collision detected or part of item is off-grid.
+                // Do not call OnItemDrag with the new 'desired' position.
+                // Item remains at its current transform.position, which is the 'lastDragPosition' from the previous valid frame.
+                itemPos = pickItem.transform.position; // itemPos reflects the current actual (and valid) position.
+                // isMoved is not set to true because no successful drag to a new 'desired' position occurred in this frame.
+            }
+            // HighlightPossibleMoves(); // Remains commented out as per previous logic
         }
         public override void ItemPut(Vector3 pos)
         {
