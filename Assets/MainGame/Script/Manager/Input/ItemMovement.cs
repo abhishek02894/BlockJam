@@ -30,17 +30,6 @@ namespace Tag.Block
                 if (item != null && item.CanMoveItem())
                 {
                     pickItem = item;
-                    Debug.Log($"[ItemMovement] ItemPick: pickItem = {pickItem.gameObject.name}, spacing = {pickItem.Spacing}");
-                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                    sb.Append("ShapePositions: ");
-                    if (pickItem.ShapePositions != null && pickItem.ShapePositions.Count > 0) {
-                        foreach (var sp in pickItem.ShapePositions) {
-                            sb.Append(sp.ToString() + "; ");
-                        }
-                    } else {
-                        sb.Append("Empty or Null");
-                    }
-                    Debug.Log(sb.ToString());
                     pickItem.OnItemPick();
                     int closestIndex = 0;
                     float minDist = float.MaxValue;
@@ -99,7 +88,7 @@ namespace Tag.Block
             float boardEdgeMaxX = boardTransX + (board.Columns - 1) / 2f * board.CellSpacing;
             float boardEdgeMinZ = boardTransZ - (board.Rows - 1) / 2f * board.CellSpacing;
             float boardEdgeMaxZ = boardTransZ + (board.Rows - 1) / 2f * board.CellSpacing;
-            
+
             // Calculate item extents (min/max world coordinates of its constituent cell centers) at the 'desired' item position
             float itemCellCentersMinX = float.MaxValue;
             float itemCellCentersMaxX = float.MinValue;
@@ -108,7 +97,7 @@ namespace Tag.Block
 
             if (pickItem.ShapePositions.Count == 0) // Handle items with no shape positions (e.g. 1x1 item at origin)
             {
-                 // For a 1x1 item, its "shape" is effectively at its origin.
+                // For a 1x1 item, its "shape" is effectively at its origin.
                 itemCellCentersMinX = desired.x;
                 itemCellCentersMaxX = desired.x;
                 itemCellCentersMinZ = desired.z;
@@ -120,7 +109,7 @@ namespace Tag.Block
                 {
                     // World position of the center of this constituent cell of the item
                     Vector3 worldPosOfShapeCellCenter = desired + new Vector3(shapePos.x * pickItem.Spacing, 0, shapePos.z * pickItem.Spacing);
-                    
+
                     itemCellCentersMinX = Mathf.Min(itemCellCentersMinX, worldPosOfShapeCellCenter.x);
                     itemCellCentersMaxX = Mathf.Max(itemCellCentersMaxX, worldPosOfShapeCellCenter.x);
                     itemCellCentersMinZ = Mathf.Min(itemCellCentersMinZ, worldPosOfShapeCellCenter.z);
@@ -167,9 +156,12 @@ namespace Tag.Block
             {
                 BaseCell cell = board.GetCellAtWorldPos(desired); // 'desired' is item's origin
                 // If the single cell for a 1x1 item is null (e.g. outside grid after boundary constraint - shouldn't happen often)
-                if (cell == null) {
+                if (cell == null)
+                {
                     canMoveToDesiredPosition = false;
-                } else {
+                }
+                else
+                {
                     cellsItemWouldOccupy.Add(cell);
                 }
             }
@@ -182,19 +174,20 @@ namespace Tag.Block
                     if (cell == null) // If any part of the item maps to a null cell (e.g. outside grid)
                     {
                         canMoveToDesiredPosition = false;
-                        break; 
+                        break;
                     }
                     cellsItemWouldOccupy.Add(cell);
                 }
             }
 
             // 2. Check for Overlaps (only if all parts mapped to actual cells)
-            if (canMoveToDesiredPosition) 
+            if (canMoveToDesiredPosition)
             {
                 foreach (BaseCell targetCell in cellsItemWouldOccupy)
                 {
                     // targetCell should not be null here due to checks above, but defensive check doesn't hurt.
-                    if (targetCell == null) { // Should have been caught already
+                    if (targetCell == null)
+                    { // Should have been caught already
                         canMoveToDesiredPosition = false;
                         break;
                     }
@@ -216,7 +209,7 @@ namespace Tag.Block
             if (canMoveToDesiredPosition)
             {
                 // Only call OnItemDrag and update lastDragPosition if the item has actually moved to a new position.
-                if ((desired - pickItem.transform.position).sqrMagnitude > 0.0001f) 
+                if ((desired - pickItem.transform.position).sqrMagnitude > 0.0001f)
                 {
                     pickItem.OnItemDrag(desired);
                     lastDragPosition = desired; // This is the last position item was successfully dragged to.
@@ -232,7 +225,7 @@ namespace Tag.Block
                 itemPos = pickItem.transform.position; // itemPos reflects the current actual (and valid) position.
                 // isMoved is not set to true because no successful drag to a new 'desired' position occurred in this frame.
             }
-            // HighlightPossibleMoves(); // Remains commented out as per previous logic
+            HighlightPossibleMoves(); // Remains commented out as per previous logic
         }
         public override void ItemPut(Vector3 pos)
         {
@@ -251,16 +244,9 @@ namespace Tag.Block
             if (putCell != null)
             {
                 Vector3 putCellPos = putCell.transform.position;
-                Vector3 shapeOffset = pickItem.GetPickedShapeOffset(); // This is the raw local offset
-                Vector3 offset = new Vector3(shapeOffset.x * pickItem.Spacing, 0f, shapeOffset.z * pickItem.Spacing); // This is the scaled offset
+                Vector3 shapeOffset = pickItem.GetPickedShapeOffset();
+                Vector3 offset = new Vector3(shapeOffset.x * pickItem.Spacing, 0f, shapeOffset.z * pickItem.Spacing);
                 finalPosition = new Vector3(putCellPos.x - offset.x, pickItem.transform.position.y, putCellPos.z - offset.z);
-
-                // Logging as per corrected instructions
-                Debug.Log($"[ItemMovement] ItemPut for {pickItem.gameObject.name}: putCell = {putCell.gameObject.name} at {putCell.transform.position}");
-                Debug.Log($"[ItemMovement] Raw local shapeOffset from GetPickedShapeOffset() was = {shapeOffset}");
-                Debug.Log($"[ItemMovement] pickItem.Spacing = {pickItem.Spacing}");
-                Debug.Log($"[ItemMovement] The 'offset' variable (scaled for finalPosition calc) = {offset}");
-                Debug.Log($"[ItemMovement] Calculated finalPosition = {finalPosition}");
 
                 Board board = LevelManager.Instance.CurrentLevel.Board;
                 canPlace = true;
@@ -269,9 +255,7 @@ namespace Tag.Block
                 {
                     Vector3 worldPos = finalPosition + new Vector3(posOffset.x * pickItem.Spacing, 0f, posOffset.z * pickItem.Spacing);
                     BaseCell cell = board.GetCellAtWorldPos(worldPos);
-                    // Removed !possibleMoveCells.Contains(putCell) and added cell.IsBlock check for robustness,
-                    // ensuring placement considers only the current state of the target cells.
-                    if (cell == null || (cell.Item != null && cell.Item != pickItem) || cell.IsBlock)
+                    if (cell == null || (cell.Item != null && cell.Item != pickItem) || !possibleMoveCells.Contains(putCell))
                     {
                         canPlace = false;
                         break;
