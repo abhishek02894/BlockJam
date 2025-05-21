@@ -40,7 +40,15 @@ namespace Tag.Block
         public int ItemSlotCount => itemSlot.Count;
         public ItemData ItemData => itemData;
 
-        public List<Vector3> ShapePositions => shapePositions;
+        // Modified ShapePositions to be a property with a getter
+        public List<Vector3> ShapePositions 
+        {
+            get 
+            {
+                EnsureShapePositionsInitialized();
+                return shapePositions;
+            }
+        }
 
         #region PRIVATE_VARS
         #endregion
@@ -184,9 +192,24 @@ namespace Tag.Block
         }
         public virtual Vector3 GetPickedShapeOffset()
         {
-            if (shapePositions == null || shapePositions.Count == 0)
+            // EnsureShapePositionsInitialized(); // Removed direct call, ShapePositions property getter will handle this.
+            
+            // Accessing this.ShapePositions will trigger EnsureShapePositionsInitialized() via the getter
+            List<Vector3> currentShapePositions = this.ShapePositions; 
+
+            // Existing logging from previous step (keep it)
+            Debug.Log($"[BaseItem] GetPickedShapeOffset for {this.gameObject.name}: pickedShapeIndex = {pickedShapeIndex}, shapePositions.Count = {(currentShapePositions != null ? currentShapePositions.Count : 0)}");
+
+            if (currentShapePositions == null || currentShapePositions.Count == 0 || pickedShapeIndex < 0 || pickedShapeIndex >= currentShapePositions.Count)
+            {
+                // Existing logging (keep it)
+                Debug.Log("[BaseItem] Returning Vector3.zero offset (list empty or index out of bounds).");
                 return Vector3.zero;
-            return shapePositions[pickedShapeIndex];
+            }
+            
+            // Existing logging (keep it)
+            Debug.Log($"[BaseItem] Returning offset: {currentShapePositions[pickedShapeIndex]} (raw), scaled by spacing in ItemMovement.");
+            return currentShapePositions[pickedShapeIndex];
         }
 
         public void SetPickedShapeIndex(int index)
@@ -206,6 +229,39 @@ namespace Tag.Block
         #endregion
 
         #region PRIVATE_FUNCTIONS
+        private void EnsureShapePositionsInitialized()
+        {
+            if ((shapePositions == null || shapePositions.Count == 0) && itemSlot != null && itemSlot.Count > 0)
+            {
+                Debug.Log($"[BaseItem] {gameObject.name}: Initializing shapePositions from itemSlot children because it was empty.");
+                shapePositions = new List<Vector3>();
+                foreach (ItemSlot childSlot in itemSlot)
+                {
+                    if (childSlot != null)
+                    {
+                        // Assuming 'spacing' is not zero to avoid division by zero.
+                        // If spacing can be zero, add a check. For typical use, it should be > 0.
+                        if (spacing == 0) {
+                            Debug.LogWarning($"[BaseItem] {gameObject.name}: Spacing is 0, cannot derive shapePositions from itemSlot localPositions accurately. Assuming localPosition is pre-scaled or shapePosition is (0,0,0).");
+                            shapePositions.Add(childSlot.transform.localPosition); // Or Vector3.zero or skip
+                        } else {
+                            Vector3 derivedShapePosition = childSlot.transform.localPosition / spacing;
+                            shapePositions.Add(derivedShapePosition);
+                        }
+                    }
+                }
+                // After dynamically populating shapePositions, it's possible pickedShapeIndex might be invalid
+                // if it was set based on a previously empty or different list.
+                // However, SetPickedShapeIndex in ItemPick will run after this, so it should be okay.
+                // For safety, ensure pickedShapeIndex is valid if we modify shapePositions here.
+                // This might be overly cautious as ItemPick recalculates it.
+                 if (pickedShapeIndex >= shapePositions.Count && shapePositions.Count > 0) { // Ensure shapePositions is not empty before accessing index 0
+                     pickedShapeIndex = 0;
+                 } else if (shapePositions.Count == 0) { // If still no shape positions, index must be 0 or invalid.
+                     pickedShapeIndex = 0; // Or -1 if that's preferred for an invalid state
+                 }
+            }
+        }
         public void UpdateOccupiedCells()
         {
             Board board = LevelManager.Instance.CurrentLevel.Board;

@@ -30,6 +30,17 @@ namespace Tag.Block
                 if (item != null && item.CanMoveItem())
                 {
                     pickItem = item;
+                    Debug.Log($"[ItemMovement] ItemPick: pickItem = {pickItem.gameObject.name}, spacing = {pickItem.Spacing}");
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    sb.Append("ShapePositions: ");
+                    if (pickItem.ShapePositions != null && pickItem.ShapePositions.Count > 0) {
+                        foreach (var sp in pickItem.ShapePositions) {
+                            sb.Append(sp.ToString() + "; ");
+                        }
+                    } else {
+                        sb.Append("Empty or Null");
+                    }
+                    Debug.Log(sb.ToString());
                     pickItem.OnItemPick();
                     int closestIndex = 0;
                     float minDist = float.MaxValue;
@@ -240,9 +251,16 @@ namespace Tag.Block
             if (putCell != null)
             {
                 Vector3 putCellPos = putCell.transform.position;
-                Vector3 shapeOffset = pickItem.GetPickedShapeOffset();
-                Vector3 offset = new Vector3(shapeOffset.x * pickItem.Spacing, 0f, shapeOffset.z * pickItem.Spacing);
+                Vector3 shapeOffset = pickItem.GetPickedShapeOffset(); // This is the raw local offset
+                Vector3 offset = new Vector3(shapeOffset.x * pickItem.Spacing, 0f, shapeOffset.z * pickItem.Spacing); // This is the scaled offset
                 finalPosition = new Vector3(putCellPos.x - offset.x, pickItem.transform.position.y, putCellPos.z - offset.z);
+
+                // Logging as per corrected instructions
+                Debug.Log($"[ItemMovement] ItemPut for {pickItem.gameObject.name}: putCell = {putCell.gameObject.name} at {putCell.transform.position}");
+                Debug.Log($"[ItemMovement] Raw local shapeOffset from GetPickedShapeOffset() was = {shapeOffset}");
+                Debug.Log($"[ItemMovement] pickItem.Spacing = {pickItem.Spacing}");
+                Debug.Log($"[ItemMovement] The 'offset' variable (scaled for finalPosition calc) = {offset}");
+                Debug.Log($"[ItemMovement] Calculated finalPosition = {finalPosition}");
 
                 Board board = LevelManager.Instance.CurrentLevel.Board;
                 canPlace = true;
