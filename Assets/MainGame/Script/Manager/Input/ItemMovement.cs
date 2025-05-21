@@ -220,7 +220,7 @@ namespace Tag.Block
                 {
                     pickItem.OnItemDrag(desired); // Item's transform.position is updated by this
                     lastDragPosition = desired;   // Update internal tracking for drag logic
-                    pickItem.SetLastValidPosition(desired); // <<<< ADD THIS LINE
+                    pickItem.SetLastValidPosition(board.GetCellAtWorldPos(desired).transform.position); // <<<< ADD THIS LINE
                     isMoved = true;             // Signifies that a move occurred in this frame.
                 }
                 itemPos = desired; // itemPos reflects the current valid position (or where it's trying to be if no significant movement).
@@ -233,7 +233,7 @@ namespace Tag.Block
                 itemPos = pickItem.transform.position; // itemPos reflects the current actual (and valid) position.
                 // isMoved is not set to true because no successful drag to a new 'desired' position occurred in this frame.
             }
-            // HighlightPossibleMoves(); // Remains commented out as per previous logic
+            HighlightPossibleMoves(); // Remains commented out as per previous logic
         }
         public override void ItemPut(Vector3 pos)
         {
