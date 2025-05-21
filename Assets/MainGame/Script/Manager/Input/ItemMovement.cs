@@ -71,38 +71,27 @@ namespace Tag.Block
 
         private void MoveItemOnBoard()
         {
-            if (pickItem == null || possibleMoveCells.Count == 0) return;
+            if (pickItem == null) return; // Removed possibleMoveCells.Count check as we are not snapping
 
-            // Find the nearest possibleMoveCell to the hit.point
-            BaseCell nearestCell = null;
-            float minDist = float.MaxValue;
-            foreach (var cell in possibleMoveCells)
-            {
-                float dist = Vector3.Distance(cell.transform.position, hit.point);
-                if (dist < minDist)
-                {
-                    minDist = dist;
-                    nearestCell = cell;
-                }
-            }
+            // Calculate the desired position using the hit.point from the raycast (pointer's world position on the plane)
+            // and the pickOffset (offset from item's origin to the point it was picked).
+            // The 'hit' variable is a member of the class and is updated in ItemDrag before MoveItemOnBoard is called.
+            Vector3 desired = hit.point + pickOffset;
 
-            if (nearestCell == null) return;
-
-            // Calculate the correct position for the item based on the picked shape offset
-            Vector3 shapeOffset = pickItem.GetPickedShapeOffset();
-            Vector3 offset = new Vector3(shapeOffset.x * pickItem.Spacing, 0f, shapeOffset.z * pickItem.Spacing);
-            Vector3 desired = new Vector3(nearestCell.transform.position.x - offset.x, pickItem.transform.position.y, nearestCell.transform.position.z - offset.z);
-            //Vector3 desired = hit.point - offset;
-
-            //if ((desired - lastDragPosition).sqrMagnitude < 0.001f)
-            //    return;
+            // We might still want to check if the position has changed significantly to avoid excessive updates,
+            // but for now, let's directly update.
+            // if ((desired - lastDragPosition).sqrMagnitude < 0.001f)
+            // return;
 
             lastDragPosition = desired;
-            pickItem.OnItemDrag(desired);
-            pickItem.SetLastValidPosition(desired);
+            pickItem.OnItemDrag(desired); // Pass the calculated world position
+            // pickItem.SetLastValidPosition(desired); // This might need to be re-evaluated for "put" logic. For now, let drag be free.
             isMoved = true;
-            itemPos = nearestCell.transform.position;
-            HighlightPossibleMoves();
+            // itemPos = nearestCell.transform.position; // Not snapping to cells, so itemPos might need a different meaning or be removed if only for snapping.
+                                                       // For now, let's keep it, but its value is not directly from a cell.
+            itemPos = desired; // Update itemPos to the current dragged position.
+            // HighlightPossibleMoves(); // Highlighting might still be useful for the eventual drop location, but not for free drag.
+                                     // We can disable this during drag if it's confusing.
         }
         public override void ItemPut(Vector3 pos)
         {
@@ -132,7 +121,9 @@ namespace Tag.Block
                 {
                     Vector3 worldPos = finalPosition + new Vector3(posOffset.x * pickItem.Spacing, 0f, posOffset.z * pickItem.Spacing);
                     BaseCell cell = board.GetCellAtWorldPos(worldPos);
-                    if (cell == null || (cell.Item != null && cell.Item != pickItem) || !possibleMoveCells.Contains(putCell))
+                    // Removed !possibleMoveCells.Contains(putCell) and added cell.IsBlock check for robustness,
+                    // ensuring placement considers only the current state of the target cells.
+                    if (cell == null || (cell.Item != null && cell.Item != pickItem) || cell.IsBlock)
                     {
                         canPlace = false;
                         break;

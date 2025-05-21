@@ -141,10 +141,8 @@ namespace Tag.Block
         }
         public virtual void OnItemDrag(Vector3 position)
         {
-            // Smoothly interpolate to the target position
-            Vector3 current = transform.position;
-            Vector3 target = new Vector3(position.x, current.y, position.z);
-            transform.position = Vector3.Lerp(current, target, 0.3f);
+            // Set the block's position directly to the pointer's world position
+            transform.position = new Vector3(position.x, transform.position.y, position.z);
         }
         public virtual void OnHoldItem()
         {
