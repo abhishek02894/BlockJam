@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9be1a2a8615e9f348a6b2b5b9f16e472, type: 3}
+  m_Name: LevelData_1
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: itemsData
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Tag.Block.ItemData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 1|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 0
+    - Name: colorType
+      Entry: 3
+      Data: 4
+    - Name: cellId
+      Entry: 3
+      Data: 10
+    - Name: elements
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 0
+    - Name: colorType
+      Entry: 3
+      Data: 2
+    - Name: cellId
+      Entry: 3
+      Data: 12
+    - Name: elements
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  level: {fileID: 2169391664999504541, guid: 8b0920ac297f53c44a44adab826e37b0, type: 3}
+  timeInSecond: 600

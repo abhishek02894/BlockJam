@@ -1,0 +1,486 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9be1a2a8615e9f348a6b2b5b9f16e472, type: 3}
+  m_Name: LevelData_7
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: itemsData
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Tag.Block.ItemData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 16
+    - Name: 
+      Entry: 7
+      Data: 1|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 5
+    - Name: colorType
+      Entry: 3
+      Data: 2
+    - Name: cellId
+      Entry: 3
+      Data: 1
+    - Name: elements
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 5
+    - Name: colorType
+      Entry: 3
+      Data: 6
+    - Name: cellId
+      Entry: 3
+      Data: 10
+    - Name: elements
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 5
+    - Name: colorType
+      Entry: 3
+      Data: 5
+    - Name: cellId
+      Entry: 3
+      Data: 14
+    - Name: elements
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 5
+    - Name: colorType
+      Entry: 3
+      Data: 7
+    - Name: cellId
+      Entry: 3
+      Data: 21
+    - Name: elements
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 5
+    - Name: colorType
+      Entry: 3
+      Data: 2
+    - Name: cellId
+      Entry: 3
+      Data: 1
+    - Name: elements
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 5
+    - Name: colorType
+      Entry: 3
+      Data: 6
+    - Name: cellId
+      Entry: 3
+      Data: 10
+    - Name: elements
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 13|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 4
+    - Name: colorType
+      Entry: 3
+      Data: 8
+    - Name: cellId
+      Entry: 3
+      Data: 18
+    - Name: elements
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 4
+    - Name: colorType
+      Entry: 3
+      Data: 1
+    - Name: cellId
+      Entry: 3
+      Data: 23
+    - Name: elements
+      Entry: 7
+      Data: 16|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 7
+    - Name: colorType
+      Entry: 3
+      Data: 1
+    - Name: cellId
+      Entry: 3
+      Data: 34
+    - Name: elements
+      Entry: 7
+      Data: 18|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 8
+    - Name: colorType
+      Entry: 3
+      Data: 8
+    - Name: cellId
+      Entry: 3
+      Data: 25
+    - Name: elements
+      Entry: 7
+      Data: 20|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 21|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 5
+    - Name: colorType
+      Entry: 3
+      Data: 5
+    - Name: cellId
+      Entry: 3
+      Data: 14
+    - Name: elements
+      Entry: 7
+      Data: 22|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 23|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 5
+    - Name: colorType
+      Entry: 3
+      Data: 7
+    - Name: cellId
+      Entry: 3
+      Data: 21
+    - Name: elements
+      Entry: 7
+      Data: 24|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 4
+    - Name: colorType
+      Entry: 3
+      Data: 8
+    - Name: cellId
+      Entry: 3
+      Data: 18
+    - Name: elements
+      Entry: 7
+      Data: 26|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 27|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 4
+    - Name: colorType
+      Entry: 3
+      Data: 1
+    - Name: cellId
+      Entry: 3
+      Data: 23
+    - Name: elements
+      Entry: 7
+      Data: 28|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 29|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 7
+    - Name: colorType
+      Entry: 3
+      Data: 1
+    - Name: cellId
+      Entry: 3
+      Data: 34
+    - Name: elements
+      Entry: 7
+      Data: 30|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 31|Tag.Block.ItemData, Assembly-CSharp
+    - Name: blockType
+      Entry: 3
+      Data: 8
+    - Name: colorType
+      Entry: 3
+      Data: 8
+    - Name: cellId
+      Entry: 3
+      Data: 25
+    - Name: elements
+      Entry: 7
+      Data: 32|System.Collections.Generic.List`1[[Tag.Block.BaseElementData, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  level: {fileID: 6571846322950301621, guid: 80c5f1d4266b0144fa799cce9d447e52, type: 3}
+  timeInSecond: 60

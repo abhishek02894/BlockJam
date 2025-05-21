@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Frame Shader 1
+  m_Shader: {fileID: 4800000, guid: 77499518572d3694e9abfbace26f8d0a, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _USESCREENSPACE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _OcclusionMap:
+        m_Texture: {fileID: 2800000, guid: edf20fd0e0763f74981dd0a7d9c6afba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PatternMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOOpacity: 0.4
+    - _LightIntensity1: 2.1
+    - _LightIntensity2: 1.45
+    - _PatternOpacity: 0
+    - _PatternRotation: 0
+    - _UseScreenSpace: 1
+    m_Colors:
+    - _Color: {r: 0.19215688, g: 0.2509804, b: 0.41176474, a: 1}
+    - _LightDirection1: {r: -6.5, g: 10.56, b: -7.85, a: 0}
+    - _LightDirection2: {r: 2.11, g: 0, b: 2.21, a: 0}
+  m_BuildTextureStacks: []
