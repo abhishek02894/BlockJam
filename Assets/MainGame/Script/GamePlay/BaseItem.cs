@@ -145,7 +145,9 @@ namespace Tag.Block
         }
         public virtual void OnItemPut(BaseCell putCell)
         {
-            ResetItemPosition();
+            // This method is called when the item is successfully placed.
+            // Derived classes can override this to perform specific actions.
+            // Do not call ResetItemPosition() here as it would undo the placement.
         }
         public virtual void OnItemDrag(Vector3 position)
         {
